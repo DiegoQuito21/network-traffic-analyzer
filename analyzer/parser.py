@@ -1,5 +1,14 @@
 from scapy.all import IP, TCP, UDP, ICMP
 
+counts = {
+    "TCP": 0,
+    "UDP": 0,
+    "ICMP": 0,
+    "OTHER": 0
+    }
+
+
+
 def parse_packet(packet):
     result = {
         "protocol": "OTHER",
@@ -9,6 +18,7 @@ def parse_packet(packet):
         "dport" : None,
         "info": ""
     }
+
 
     if IP in packet:
         result["src"] = packet[IP].src
@@ -29,4 +39,7 @@ def parse_packet(packet):
         result["sport"] = None
         result["dport"] =None 
 
+    counts[result["protocol"]] += 1
     return result 
+
+    
