@@ -1,6 +1,6 @@
 from scapy.all import sniff 
 from .parser import parse_packet 
-from .display import display_packet , display_summary
+from .display import display_packet , display_summary, export_json 
 
 def start_capture(packet_count = 1000, filter_protocol=None):
     def handle_packet(packet):
@@ -10,6 +10,8 @@ def start_capture(packet_count = 1000, filter_protocol=None):
     print(f"packet capture starting")
     sniff(count = packet_count , store = False , prn = handle_packet)
     display_summary()
+    export_json()
+    
    
 
 

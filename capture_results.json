@@ -1,0 +1,9 @@
+{
+    "total_packets": 1000,
+    "summary": {
+        "TCP": 331,
+        "UDP": 612,
+        "ICMP": 0,
+        "OTHER": 57
+    }
+}

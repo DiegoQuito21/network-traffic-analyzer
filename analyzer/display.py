@@ -1,6 +1,8 @@
 from rich import print as rprint
 from rich.console import Console
 from .parser import counts
+import json
+
 
 console = Console()
 
@@ -40,6 +42,22 @@ def display_summary():
         rprint(f"  {protocol}: {count} ({pct:.1f}%)")
 
     console.rule()
+
+def export_json():
+    total = sum(counts.values())
+
+    data = { 
+        "total_packets": total, 
+        "summary": counts 
+    }
+    with open ("capture_results.json", "w") as f:
+        json.dump(data, f , indent = 4)
+    rprint("[green]Results saved to captured_results.json[/green]")
+
+
+              
+              
+        
 
     
     
