@@ -1,4 +1,9 @@
 from scapy.all import IP, TCP, UDP, ICMP
+from rich import print as rprint
+
+
+port_scan_tracker = {}
+PORT_SCAN_THRESHOLD = 10 
 
 counts = {
     "TCP": 0,
@@ -18,7 +23,6 @@ def parse_packet(packet):
         "dport" : None,
         "info": ""
     }
-
 
     if IP in packet:
         result["src"] = packet[IP].src
@@ -40,6 +44,20 @@ def parse_packet(packet):
         result["dport"] =None 
 
     counts[result["protocol"]] += 1
+    if result["src"] != "unknown" and result["dport"] is not None:
+        src = result["src"]
+        dport = result["dport"]
+
+    
+    
+        if src not in port_scan_tracker:
+            port_scan_tracker[src] = set()
+        port_scan_tracker[src].add(dport)
+
+        if len(port_scan_tracker[src]) > PORT_SCAN_THRESHOLD:
+            rprint(f"[red][WARNING] Possible port scan detected from {src}![/red]")
     return result 
+
+
 
     
